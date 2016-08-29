@@ -7,6 +7,15 @@ export class Canvas {
         this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
     }
 
+    noStateLeak(painter) {
+        this.context.save();
+        try {
+            painter(this.context);
+        } finally {
+            this.context.restore();
+        }
+    }
+
     stroke(painter) {
         this.context.beginPath();
         painter(this.context);

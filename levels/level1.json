@@ -8,6 +8,12 @@
         },
         {
             "railStation": [30, 5, 90]
+        },
+        {
+            "railStation": [25, 30, 180]
+        },
+        {
+            "railStation": [2, 25, 270]
         }
     ],
     "railLines": [
