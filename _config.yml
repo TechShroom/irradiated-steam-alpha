@@ -1,0 +1,31 @@
+# Site settings
+title: Irradiated Steam (Alpha)
+email: ket1999@gmail.com
+description: Steam trains in an apocalypse.
+meta_desc: "Irradiated Steam. Alpha version."
+baseurl: "/irradiated-steam"
+url: "https://linode.kenzierocks.me" # the base hostname & protocol for your site
+
+exclude: [
+            ".htaccess",
+            "build.sh",
+            "Gemfile",
+            "Gemfile.lock",
+            "README.md",
+            "CONTRIBUTING.md",
+            "npm-debug.log",
+            ".idea",
+            "*.sh",
+            "node_modules",
+            "gulpfile.js",
+            "package.js",
+            "vendor",
+            "firebase-rules"
+         ]   
+
+# Build settings
+markdown: kramdown
+defaults:
+  -
+    values:
+      layout: "default"
