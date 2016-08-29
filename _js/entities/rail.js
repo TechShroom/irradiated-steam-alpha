@@ -1,13 +1,9 @@
-import {ImageEntity} from "./entity";
-import {images} from "../images";
+import {RotatedImageEntity} from "./entity";
 
-const railImage = images["rail"];
-export class Rail extends ImageEntity {
+export class Rail extends RotatedImageEntity {
 
     constructor(x, y, rotation) {
-        super(x, y, 1, 1, "rail");
-        this.rotation = rotation;
-        this.image = railImage.chooseImage(this.rotation);
+        super(x, y, 1, 1, rotation, "rail");
     }
 
 }

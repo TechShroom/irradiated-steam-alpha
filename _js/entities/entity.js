@@ -1,7 +1,7 @@
 import {Drawable} from "../canvas";
 import {images} from "../images";
 export class Entity extends Drawable {
-    constructor(x = 0, y = 0, width = 1, height = 1) {
+    constructor(x, y, width = 1, height = 1) {
         super();
         this.x = x;
         this.y = y;
@@ -101,5 +101,12 @@ export class ImageEntity extends Entity {
 
     draw(draw, zero, time) {
         draw.context.drawImage(this.image, this.realX, this.realY, this.realWidth, this.realHeight);
+    }
+}
+
+export class RotatedImageEntity extends ImageEntity {
+    constructor(x, y, w, h, rotation, image) {
+        super(x, y, w, h, image);
+        this.image = this.image.chooseImage(rotation);
     }
 }

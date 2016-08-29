@@ -5,6 +5,10 @@ export function loadLevel(name, game) {
             const type = Object.keys(data)[0];
             const create = EntityRegistry.get(type);
             const args = [e => {
+                if (Array.isArray(e)) {
+                    e.forEach(ent => game.addEntity(ent));
+                    return;
+                }
                 game.addEntity(e);
             }].concat(data[type]);
             create.apply(undefined, args);
@@ -17,7 +21,7 @@ export function loadLevel(name, game) {
             let [start, end] = line.map(e => aliases[e]);
             if (start[0] == end[0]) {
                 // x equal, vertical line.
-                const rot = start[1] < end[1] ? 0 : 180;
+                const rot = start[1] < end[1] ? 90 : 270;
                 const x = start[0];
                 const min = Math.min(start[1], end[1]);
                 const max = Math.max(start[1], end[1]);
@@ -26,7 +30,7 @@ export function loadLevel(name, game) {
                 }
             } else {
                 // y equal, horiz line.
-                const rot = start[0] < end[0] ? 90 : 270;
+                const rot = start[0] < end[0] ? 0 : 180;
                 const y = start[1];
                 const min = Math.min(start[0], end[0]);
                 const max = Math.max(start[0], end[0]);

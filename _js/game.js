@@ -1,4 +1,5 @@
 import {Drawable} from "./canvas";
+import {Entity} from "./entities/entity";
 export class Game extends Drawable {
     constructor() {
         super();
@@ -29,6 +30,9 @@ export class Game extends Drawable {
     }
 
     addEntity(e) {
+        if (!(e instanceof Entity)) {
+            throw new Error("That ain't no entity I ever seen.");
+        }
         this.entities.push(e);
         const renderOrder = e.renderOrder;
         const renderLevel = this.renderLevels[renderOrder] || (this.renderLevels[renderOrder] = []);

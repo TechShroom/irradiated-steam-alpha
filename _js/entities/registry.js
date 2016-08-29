@@ -1,5 +1,6 @@
 import {Train} from "./train";
 import {Rail} from "./rail";
+import {RailPart} from "./station";
 function cb(f) {
     return function callSub() {
         const args = Array.prototype.slice.call(arguments);
@@ -10,7 +11,8 @@ function cb(f) {
 }
 const registry = {
     "train": cb((x, y, color) => new Train(x, y, color)),
-    "rail": cb((x, y, rot, image) => new Rail(x, y, rot, image))
+    "rail": cb((x, y, rot) => new Rail(x, y, rot)),
+    "railStation": cb(RailPart.create)
 };
 export default {
     get: (type) => {

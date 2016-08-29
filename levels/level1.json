@@ -2,6 +2,12 @@
     "entities": [
         {
             "train": [2, 2]
+        },
+        {
+            "railStation": [5, 2, 0]
+        },
+        {
+            "railStation": [30, 5, 90]
         }
     ],
     "railLines": [

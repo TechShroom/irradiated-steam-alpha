@@ -15,7 +15,8 @@ function rotatedCanvas(rot, railImage) {
     const canvas = createCanvas(railImage.width, railImage.height);
     const ctx = canvas.getContext("2d");
     ctx.translate(railImage.width / 2, railImage.height / 2);
-    ctx.rotate((rot * Math.PI) / 180);
+    // canvas rotation is 90 deg off from math rotation -- fix here
+    ctx.rotate(((rot + 90) * Math.PI) / 180);
     ctx.drawImage(railImage, -railImage.width / 2, -railImage.height / 2);
     return canvas;
 }
@@ -50,10 +51,12 @@ function addImage(image, rightAngles = false) {
     loadImage(image).then(img => {
         images[image] = rightAngles ? createRotatedCanvases(img) : img;
         queue.splice(queue.indexOf(image), 1);
-    });
+    }).catch(err => console.error(err));
 }
 addImage("train", true);
 addImage("rail", true);
+addImage("railStation", true);
+addImage("station", true);
 export function runWhenAllLoaded(cb) {
     let interval = undefined;
     const loop = () => {

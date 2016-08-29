@@ -1,5 +1,6 @@
 import {ImageEntity} from "./entity";
 import {images} from "../images";
+import {normalizeDegree} from "../util/rotation";
 const trainImage = images["train"];
 export class Train extends ImageEntity {
     constructor(x, y, color = "black") {
@@ -10,8 +11,9 @@ export class Train extends ImageEntity {
     }
 
     set rotation(rot) {
+        rot = normalizeDegree(rot);
         this.__rotation = rot;
-        this.image = trainImage.chooseImage((rot + 90) % 360);
+        this.image = trainImage.chooseImage(rot);
     }
 
     get rotation() {
@@ -109,7 +111,6 @@ export class Train extends ImageEntity {
     }
 
     onKeyboard(e) {
-        console.log(e.which);
         if (e.which == 87) {
             // 'w' key
             this.moveForward();
