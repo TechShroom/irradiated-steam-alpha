@@ -3,7 +3,7 @@ title: Irradiated Steam (Alpha)
 email: ket1999@gmail.com
 description: Steam trains in an apocalypse.
 meta_desc: "Irradiated Steam. Alpha version."
-baseurl: "/irradiated-steam"
+baseurl: "/irradiated-steam-alpha"
 url: "https://linode.kenzierocks.me" # the base hostname & protocol for your site
 
 exclude: [
