@@ -108,6 +108,10 @@ export class AttachedPart extends RotatedImageEntity {
             }
             ctx.translate(x, y);
             ctx.rotate(rot.addDegrees(180).radians);
+            ctx.fillStyle = "rgb(150, 150, 150)";
+            ctx.strokeStyle = "black";
+            ctx.fillRect(-2, -2, 20, 20);
+            ctx.strokeRect(-2, -2, 20, 20);
             this.cargoOut.forEach((c, i) => {
                 ctx.fillStyle = c;
                 ctx.fillRect(0, i * 3 + 2, 6, 2);
