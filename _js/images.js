@@ -4,14 +4,14 @@ export function loadImage(image) {
     });
 }
 
-function createCanvas(width, height) {
+export function createCanvas(width, height) {
     var canvas = document.createElement('canvas');
     canvas.width = width;
     canvas.height = height;
     return canvas;
 }
 
-function rotatedCanvas(rot, railImage) {
+export function rotatedCanvas(rot, railImage) {
     const canvas = createCanvas(railImage.width, railImage.height);
     const ctx = canvas.getContext("2d");
     ctx.translate(railImage.width / 2, railImage.height / 2);
@@ -21,7 +21,7 @@ function rotatedCanvas(rot, railImage) {
     return canvas;
 }
 
-function createRotatedCanvases(img) {
+export function createRotatedCanvases(img) {
     const canvas0 = rotatedCanvas(0, img);
     const canvas90 = rotatedCanvas(90, img);
     const canvas180 = rotatedCanvas(180, img);

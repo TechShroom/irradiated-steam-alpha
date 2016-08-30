@@ -1,19 +1,46 @@
 import {ImageEntity} from "./entity";
-import {images} from "../images";
-import {normalizeDegree} from "../util/rotation";
-const trainImage = images["train"];
+import {RailPart} from "./station";
+import {createCanvas, createRotatedCanvases} from "../images";
+import {get90DegreeAngle, normalizeDegree} from "../util/rotation";
+
+function createTrain(player, color) {
+    const canvas = createCanvas(16, 16);
+    const ctx = canvas.getContext("2d");
+    ctx.fillStyle = color;
+    if (player) {
+        ctx.translate(8, 8);
+        ctx.rotate(get90DegreeAngle(180).radians);
+        ctx.translate(-8, -8);
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(7, 15);
+        ctx.lineTo(8, 15);
+        ctx.lineTo(15, 0);
+        ctx.closePath();
+        ctx.fill();
+    } else {
+        ctx.fillRect(0, 1, 16, 15);
+    }
+    return canvas;
+}
+
+const DELAY = 1000;
 export class Train extends ImageEntity {
-    constructor(x, y, color = "black") {
+    constructor(x, y, color = "black", player = true, station = null) {
         super(x, y, 1, 1, "train");
         this.color = color;
+        this.images = createRotatedCanvases(createTrain(player, color));
         this.renderOrder = 1;
         this.rotation = 0;
+        this.cargo = [];
+        this.station = station;
+        this.player = player;
     }
 
     set rotation(rot) {
         rot = normalizeDegree(rot);
         this.__rotation = rot;
-        this.image = trainImage.chooseImage(rot);
+        this.image = this.images.chooseImage(rot);
     }
 
     get rotation() {
@@ -110,14 +137,93 @@ export class Train extends ImageEntity {
         }
     }
 
+    pushCargo(cargo, source) {
+        const cargoWagon = new Train(this.x, this.y, cargo, false, source);
+        cargoWagon.rotation = this.rotation;
+        this.attachedGame.addEntity(cargoWagon);
+        const moves = this.cargo.push(cargoWagon);
+        for (let i = 0; i < moves; i++) {
+            cargoWagon.moveBackward();
+        }
+    }
+
+    pushToStation() {
+        if (this.cargo.length === 0) {
+            return false;
+        }
+        for (let i = this.cargo.length - 1; i >= 0; i--) {
+            const cargo = this.cargo[i];
+            if (this.station !== cargo.station && this.station.tryPushCargo(cargo.color)) {
+                this.cargo.splice(i, 1);
+                for (let j = i; j < this.cargo.length; j++) {
+                    this.cargo[j].moveForward();
+                }
+                this.attachedGame.removeEntity(cargo);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    pullFromStation() {
+        const cargo = this.station.tryPopCargo();
+        if (cargo === null) {
+            return false;
+        }
+        this.pushCargo(cargo, this.station);
+        return true;
+    }
+
+    checkCargo(time) {
+        if (!this.player) {
+            // not for us
+            return;
+        }
+        const railParts = this.attachedGame.getEntitiesAt(this.x, this.y).filter(e => e instanceof RailPart);
+        if (this.station) {
+            if (railParts.length === 0) {
+                // No more rail!
+                this.station = null;
+                return;
+            }
+            if (time >= this.lastStationTick + DELAY) {
+                this.lastStationTick = time;
+                if (!this.pushToStation()) {
+                    this.pullFromStation();
+                }
+            }
+        } else {
+            if (railParts.length !== 0) {
+                // Attached rail!
+                const rail = railParts[0];
+                // Get station
+                this.station = rail.station;
+                this.lastStationTick = time;
+            }
+        }
+    }
+
+    draw(draw, zero, time) {
+        this.checkCargo(time);
+        super.draw(draw, zero, time);
+    }
+
     onKeyboard(e) {
+        if (!this.player) {
+            // not for us
+            return;
+        }
         if (e.which == 87) {
             // 'w' key
-            this.moveForward();
+            if (this.moveForward()) {
+                this.cargo.forEach(c => c.moveForward());
+            }
             return true;
         } else if (e.which == 83) {
             // 's' key
-            this.moveBackward();
+            if (this.moveBackward()) {
+                this.cargo.forEach(c => c.moveBackward());
+            }
             return true;
         }
     }

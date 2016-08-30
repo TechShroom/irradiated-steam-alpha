@@ -92,7 +92,7 @@ export class Entity extends Drawable {
 export class ImageEntity extends Entity {
     constructor(x, y, w, h, image) {
         super(x, y, w, h);
-        this.image = images[image];
+        this.image = (typeof image === "string" || image instanceof String) ? images[image] : image;
         if (!this.image) {
             throw new Error("No image for " + image);
         }

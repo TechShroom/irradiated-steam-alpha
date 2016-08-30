@@ -21,6 +21,15 @@ class Rotation {
         }
         return createRotationDeg(this.degrees + deg);
     }
+
+    transform(x, y) {
+        const cos = Math.cos(this.radians);
+        const sin = Math.sin(this.radians);
+        return [
+            x * cos - y * sin,
+            y * cos + x * sin
+        ]
+    }
 }
 export function toDegrees(rad) {
     return (rad * 180) / Math.PI;

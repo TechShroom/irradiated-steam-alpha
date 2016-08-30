@@ -1,27 +1,27 @@
 {
     "entities": [
         {
-            "train": [2, 2]
+            "train": [4, 4]
         },
         {
-            "railStation": [5, 2, 0]
+            "railStation": [10, 4, 0, 0]
         },
         {
-            "railStation": [30, 5, 90]
+            "railStation": [30, 10, 90, 1]
         },
         {
-            "railStation": [25, 30, 180]
+            "railStation": [25, 30, 180, 2]
         },
         {
-            "railStation": [2, 25, 270]
+            "railStation": [4, 25, 270, 3]
         }
     ],
     "railLines": [
         {
-            "a": [2, 2],
-            "b": [30, 2],
+            "a": [4, 4],
+            "b": [30, 4],
             "c": [30, 30],
-            "d": [2, 30]
+            "d": [4, 30]
         },
         ["a", "b"],
         ["b", "c"],
