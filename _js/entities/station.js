@@ -49,6 +49,8 @@ export class AttachedPart extends RotatedImageEntity {
         this.cargoOut = [];
         this.cargoIn = [];
         this.mostRecentSpawn = 0;
+
+        this.spawnCargoOut();
     }
 
     tryPushCargo(cargo) {
@@ -66,6 +68,11 @@ export class AttachedPart extends RotatedImageEntity {
         return this.cargoOut.shift();
     }
 
+    spawnCargoOut() {
+        const index = Math.floor(Math.random() * this.picker.length);
+        this.cargoOut.push(this.picker[index]);
+    }
+
     draw(draw, zero, time) {
         super.draw(draw, zero, time);
         if (time >= this.mostRecentSpawn + TIME_BETWEEN_SPAWNS) {
@@ -73,8 +80,7 @@ export class AttachedPart extends RotatedImageEntity {
             if (this.cargoOut.length < this.capacity) {
                 // ~25% chance to spawn
                 if ((Math.random() * 100) < 25) {
-                    const index = Math.floor(Math.random() * this.picker.length);
-                    this.cargoOut.push(this.picker[index]);
+                    this.spawnCargoOut();
                 }
             }
             if (this.cargoIn.length > 0) {

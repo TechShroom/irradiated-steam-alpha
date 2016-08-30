@@ -59,7 +59,7 @@ function drawLoop() {
     }
 }
 game = new Game();
-loadLevel("level1", game).then(() => console.info("Loaded level!")).catch(err => console.error(err));
+loadLevel("level1", game).catch(err => console.error(err));
 window.gameExported = game;
 window.requestAnimationFrame(drawLoop);
 

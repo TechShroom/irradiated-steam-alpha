@@ -6,7 +6,6 @@ import {get90DegreeAngle, normalizeDegree} from "../util/rotation";
 function createTrain(player, color) {
     const canvas = createCanvas(16, 16);
     const ctx = canvas.getContext("2d");
-    ctx.fillStyle = color;
     if (player) {
         ctx.translate(8, 8);
         ctx.rotate(get90DegreeAngle(180).radians);
@@ -17,9 +16,13 @@ function createTrain(player, color) {
         ctx.lineTo(8, 15);
         ctx.lineTo(15, 0);
         ctx.closePath();
+        ctx.fillStyle = color;
         ctx.fill();
     } else {
-        ctx.fillRect(0, 1, 16, 15);
+        ctx.fillStyle = "gray";
+        ctx.fillRect(1, 1, 15, 15);
+        ctx.fillStyle = color;
+        ctx.fillRect(4, 4, 8, 8);
     }
     return canvas;
 }
@@ -159,6 +162,8 @@ export class Train extends ImageEntity {
                     this.cargo[j].moveForward();
                 }
                 this.attachedGame.removeEntity(cargo);
+                // woo! points!
+                this.attachedGame.score += 25;
                 return true;
             }
         }

@@ -1,10 +1,13 @@
 import {Drawable} from "./canvas";
 import {Entity} from "./entities/entity";
+import $ from "jquery";
+const $score = $("#score");
 export class Game extends Drawable {
     constructor() {
         super();
         this.entities = [];
         this.renderLevels = {};
+        this.score = 0;
     }
 
     onClick(event, correctedX, correctedY) {
@@ -14,6 +17,15 @@ export class Game extends Drawable {
                 e.onClick(event, correctedX, correctedY);
             }
         })
+    }
+
+    set score(amt) {
+        this.__score = amt;
+        $score.text("Score: " + this.score);
+    }
+
+    get score() {
+        return this.__score;
     }
 
     getEntitiesAt(x, y) {
