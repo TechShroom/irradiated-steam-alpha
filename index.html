@@ -3,9 +3,13 @@ title: Home
 order: 0
 ---
 <div class="col-md-8">
-    {% comment %} World of 45x36 16-pixel cells {% endcomment %}
-    <canvas id="game" width="720" height="576" style="margin: 0 auto; display: inline-block; background-color: white">
-
-    </canvas>
+    <div style="position: relative;">
+        {% comment %} World of 45x36 16-pixel cells {% endcomment %}
+        <img src="{{site.baseurl}}/img/background.png" width="720" height="576"
+             style="position: absolute; left: 0; top: 0; z-index: 1;"/>
+        <canvas id="game" width="720" height="576"
+                style="position: absolute; left: 0; top: 0; z-index: 1; display: inline-block; background-color: rgba(255,255,255, 0.3)">
+        </canvas>
+    </div>
 </div>
 <div id="score" class="col-md-4" style="display: inline-block; font-size: 6em; margin: auto; text-align: center"></div>

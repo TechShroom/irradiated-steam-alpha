@@ -1,23 +1,25 @@
 import {ImageEntity} from "./entity";
 import {RailPart} from "./station";
-import {createCanvas, createRotatedCanvases} from "../images";
-import {get90DegreeAngle, normalizeDegree} from "../util/rotation";
+import {images, createCanvas, createRotatedCanvases} from "../images";
+import {normalizeDegree} from "../util/rotation";
 
 function createTrain(player, color) {
     const canvas = createCanvas(16, 16);
     const ctx = canvas.getContext("2d");
     if (player) {
-        ctx.translate(8, 8);
-        ctx.rotate(get90DegreeAngle(180).radians);
-        ctx.translate(-8, -8);
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(7, 15);
-        ctx.lineTo(8, 15);
-        ctx.lineTo(15, 0);
-        ctx.closePath();
-        ctx.fillStyle = color;
-        ctx.fill();
+        ctx.drawImage(images["train"], 0, 0, 16, 16);
+        // LEGACY TRIANGLE
+        // ctx.translate(8, 8);
+        // ctx.rotate(get90DegreeAngle(180).radians);
+        // ctx.translate(-8, -8);
+        // ctx.beginPath();
+        // ctx.moveTo(0, 0);
+        // ctx.lineTo(7, 15);
+        // ctx.lineTo(8, 15);
+        // ctx.lineTo(15, 0);
+        // ctx.closePath();
+        // ctx.fillStyle = color;
+        // ctx.fill();
     } else {
         ctx.fillStyle = "gray";
         ctx.fillRect(1, 1, 15, 15);

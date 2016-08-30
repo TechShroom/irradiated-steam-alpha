@@ -53,7 +53,7 @@ function addImage(image, rightAngles = false) {
         queue.splice(queue.indexOf(image), 1);
     }).catch(err => console.error(err));
 }
-addImage("train", true);
+addImage("train", false);
 addImage("rail", true);
 addImage("railStation", true);
 addImage("station", true);
